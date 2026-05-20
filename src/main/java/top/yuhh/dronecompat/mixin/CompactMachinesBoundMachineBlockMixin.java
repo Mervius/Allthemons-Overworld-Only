@@ -82,6 +82,7 @@ public class CompactMachinesBoundMachineBlockMixin {
                 return original.call(machineLevel, player, machinePos, roomCode);
             }
 
-        } return original.call(machineLevel, player, machinePos, roomCode);
+        }
+        return original.call(machineLevel, player, machinePos, roomCode);
     }
 }

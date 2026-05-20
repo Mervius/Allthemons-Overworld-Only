@@ -192,7 +192,8 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
 
                 return ItemInteractionResult.CONSUME;
             }
-        } catch (InvocationTargetException |NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException |
+                 InstantiationException e) {
             return ItemInteractionResult.FAIL;
         }
         return ItemInteractionResult.FAIL;
@@ -217,7 +218,7 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
                 Field boundField = MACHINE_BLOCK_ENTITY_CLASS.getDeclaredField("MACHINE");
                 unboundField.setAccessible(true);
                 boundField.setAccessible(true);
-                level.getBlockEntity(pos, ((BlockEntityType<?>)(((Supplier<?>) unboundField.get(null)).get()))).ifPresent(unboundEntity -> {
+                level.getBlockEntity(pos, ((BlockEntityType<?>) (((Supplier<?>) unboundField.get(null)).get()))).ifPresent(unboundEntity -> {
                     try {
                         Object template = TEMPLATE_METHOD.invoke(null, level, TEMPLATE_ID_METHOD.invoke(unboundEntity));
                         if (!template.equals(INVALID)) {

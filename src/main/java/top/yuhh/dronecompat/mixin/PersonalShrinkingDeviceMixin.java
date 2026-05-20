@@ -102,7 +102,7 @@ public class PersonalShrinkingDeviceMixin {
             Object manager = ENTRY_METHOD.invoke(api);
             Object hist = HIST_METHOD.invoke(manager, serverPlayer);
 
-            Object histOptional = ((Optional<?>)hist).orElse(null);
+            Object histOptional = ((Optional<?>) hist).orElse(null);
             if (histOptional == null) {
                 Class.forName("dev.compactmods.machines.util.PlayerUtil").getMethod("teleportPlayerToRespawnOrOverworld", MinecraftServer.class, ServerPlayer.class).invoke(null, serverPlayer.server, serverPlayer);
                 return CompletableFuture.completedFuture(OVERWORLD);
@@ -127,7 +127,8 @@ public class PersonalShrinkingDeviceMixin {
                 }
             }
 
-        } catch (IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | ClassNotFoundException |
+                 NoSuchMethodException e) {
             return original.call(serverPlayer);
         }
         return original.call(serverPlayer);

@@ -179,7 +179,7 @@ public abstract class ServerLevelMixin extends Level {
         }
 
         Object betterDragonFight = this.getDragonFight();
-        if (!BETTER_DRAGON_FIGHT_CLASS.isInstance(betterDragonFight))  {
+        if (!BETTER_DRAGON_FIGHT_CLASS.isInstance(betterDragonFight)) {
             return;
         }
 

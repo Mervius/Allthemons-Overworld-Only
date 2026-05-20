@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import java.util.UUID;
 
 import static top.yuhh.dronecompat.DroneCompat.MODID;
@@ -24,7 +25,7 @@ public class PlayerTabOverlayMixin {
             ResourceLocation icon = score == 0 ? ResourceLocation.fromNamespaceAndPath(MODID, "icon/portal_1") : ResourceLocation.fromNamespaceAndPath(MODID, "icon/portal_0");
 
             ScoreDisplayEntryAccessor entry = (ScoreDisplayEntryAccessor) displayEntry;
-            guiGraphics.blitSprite(icon,  maxX - entry.getWidth() - 3, y, 8, 8);
+            guiGraphics.blitSprite(icon, maxX - entry.getWidth() - 3, y, 8, 8);
 
             ci.cancel();
         }

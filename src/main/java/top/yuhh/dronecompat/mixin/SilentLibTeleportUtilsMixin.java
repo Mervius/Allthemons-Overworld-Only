@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 public class SilentLibTeleportUtilsMixin {
 
     @Inject(method = "teleport(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/resources/ResourceKey;DDDLnet/minecraft/core/Direction;)V", at = @At("HEAD"), cancellable = true)
-    private static void cancelTeleport(Player player, ResourceKey<Level> dimension, double destX, double destY, double destZ, @Nullable Direction direction ,CallbackInfo ci) {
+    private static void cancelTeleport(Player player, ResourceKey<Level> dimension, double destX, double destY, double destZ, @Nullable Direction direction, CallbackInfo ci) {
         ResourceKey<Level> currentDimension = player.level().dimension();
         Scoreboard scoreboard = player.getScoreboard();
         Objective objective = scoreboard.getObjective("preventDimensionChange");
