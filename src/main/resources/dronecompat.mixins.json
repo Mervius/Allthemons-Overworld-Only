@@ -1,0 +1,28 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "top.yuhh.dronecompat.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BumblezonePlatformServiceMixin",
+    "CompactMachinesBoundMachineBlockMixin",
+    "CompactMachinesUnboundMachineBlockMixin",
+    "PersonalShrinkingDeviceMixin",
+    "ServerLevelMixin",
+    "ServerPlayerMixin",
+    "SilentLibTeleportUtilsMixin",
+    "SpawnCandidateAccessor",
+    "TeleportPadMixin",
+    "TrainerSpawnerMixin"
+  ],
+  "client": [
+    "PlayerTabOverlayMixin",
+    "ScoreDisplayEntryAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
