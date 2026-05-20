@@ -2,9 +2,7 @@ package top.yuhh.dronecompat;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.numbers.NumberFormat;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.DisplaySlot;
 import net.minecraft.world.scores.Objective;
@@ -23,9 +21,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
-import top.yuhh.dronecompat.mixin.ScoreDisplayEntryAccessor;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DroneCompat.MODID)

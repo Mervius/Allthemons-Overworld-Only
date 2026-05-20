@@ -1,10 +1,8 @@
 package top.yuhh.dronecompat.mixin;
 
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
@@ -15,14 +13,11 @@ import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.Scoreboard;
 import net.neoforged.neoforge.common.util.FakePlayer;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.awt.*;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends Player {

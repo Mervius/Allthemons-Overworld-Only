@@ -1,21 +1,18 @@
 package top.yuhh.dronecompat.mixin;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.FakePlayer;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-
 import top.yuhh.dronecompat.interfaces.TrainerSpawnerInterface;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @Mixin(targets = "com.gitlab.srcmc.rctmod.api.service.TrainerSpawner")
 public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {

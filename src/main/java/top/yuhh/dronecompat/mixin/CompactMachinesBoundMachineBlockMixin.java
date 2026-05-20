@@ -2,12 +2,6 @@ package top.yuhh.dronecompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-
-import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.concurrent.CompletableFuture;
-
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -17,12 +11,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.Scoreboard;
-
 import net.neoforged.neoforge.common.util.FakePlayer;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.concurrent.CompletableFuture;
 
 @Mixin(targets = "dev.compactmods.machines.machine.block.BoundCompactMachineBlock")
 public class CompactMachinesBoundMachineBlockMixin {

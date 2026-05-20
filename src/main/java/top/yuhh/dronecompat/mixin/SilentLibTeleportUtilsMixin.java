@@ -1,7 +1,5 @@
 package top.yuhh.dronecompat.mixin;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
@@ -9,12 +7,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.Scoreboard;
-
 import net.neoforged.neoforge.common.util.FakePlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
 
 @Mixin(targets = "net.silentchaos512.lib.util.TeleportUtils")
 public class SilentLibTeleportUtilsMixin {
