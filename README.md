@@ -1,1 +1,1 @@
-While this can technically compile and run without any of the mods in the Allthemons modpack. This is currently made for the purposes of being used in said modpack by myself personally and I do not have plans to expand it further than that.
+While this can technically compile and run without any of the mods in the Allthemons modpack(I made sure of that). This is currently made for the purposes of being used in said modpack by myself personally and I do not have plans to expand it further than that.
