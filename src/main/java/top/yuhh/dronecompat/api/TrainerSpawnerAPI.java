@@ -2,6 +2,7 @@ package top.yuhh.dronecompat.api;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+
 import top.yuhh.dronecompat.interfaces.TrainerSpawnerInterface;
 
 public final class TrainerSpawnerAPI {

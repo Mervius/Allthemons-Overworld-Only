@@ -101,6 +101,10 @@ public class PersonalShrinkingDeviceMixin {
     private static CompletableFuture<?> cancelUse(ServerPlayer serverPlayer, Operation<CompletableFuture<?>> original) {
         droneCompat$init();
 
+        if (API_CLASS == null) {
+            return CompletableFuture.completedFuture(false);
+        }
+
         try {
             Object api = API_METHOD.invoke(null);
             Object manager = ENTRY_METHOD.invoke(api);

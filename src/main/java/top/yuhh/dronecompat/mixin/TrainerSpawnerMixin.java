@@ -75,6 +75,10 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
     public void droneCompat$attemptSpawnForDrone(Entity drone, Player owner, Object rct, Object rctManager, Object rctConfig) {
         droneCompat$init();
 
+        if (NEXT_SPAWN_CANDIDATE == null) {
+            return;
+        }
+
         try {
             double spawnChance = (double) SPAWN_CHANCE.invoke(rctConfig);
             double spawnChanceMin = (double) SPAWN_CHANCE_MIN.invoke(rctConfig);

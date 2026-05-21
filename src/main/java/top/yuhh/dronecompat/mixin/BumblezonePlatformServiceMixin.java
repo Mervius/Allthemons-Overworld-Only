@@ -28,6 +28,7 @@ public class BumblezonePlatformServiceMixin {
             if (score == 0 && (!currentDimension.equals(dimension)) && !(serverPlayer instanceof FakePlayer)) {
                 System.out.println("Cancelled dimension change");
                 cir.setReturnValue(false);
+                cir.cancel();
             }
         }
     }

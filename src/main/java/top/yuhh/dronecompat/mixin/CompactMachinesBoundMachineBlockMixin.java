@@ -65,26 +65,27 @@ public class CompactMachinesBoundMachineBlockMixin {
     @WrapOperation(method = "useItemOn", at = @At(value = "INVOKE", target = "Ldev/compactmods/machines/room/RoomHelper;teleportPlayerIntoMachine(Lnet/minecraft/world/level/Level;Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/core/GlobalPos;Ljava/lang/String;)Ljava/util/concurrent/CompletableFuture;"))
     private static CompletableFuture<?> teleportPlayerIntoMachine(Level machineLevel, ServerPlayer player, GlobalPos machinePos, String roomCode, Operation<CompletableFuture<?>> original) {
         droneCompat$init();
-        if (COMPACT_CLASS != null) {
-            try {
-                ResourceKey<Level> currentDimension = player.level().dimension();
-                ResourceKey<Level> compactDimension = ((ServerLevel) COMPACT_DIM.invoke(null, player.server)).dimension();
-                Scoreboard scoreboard = player.getScoreboard();
-                Objective objective = scoreboard.getObjective("preventDimensionChange");
-                if (objective != null) {
-                    ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(player, objective);
-                    int score = scoreAccess.get();
-                    if (score == 0 && (!currentDimension.equals(compactDimension)) && !(player instanceof FakePlayer)) {
-                        System.out.println("Cancelled dimension change");
-                        return CompletableFuture.completedFuture(FAILED);
-                    }
-                }
-                return original.call(machineLevel, player, machinePos, roomCode);
-            } catch (InvocationTargetException | IllegalAccessException e) {
-                return original.call(machineLevel, player, machinePos, roomCode);
-            }
 
+        if (COMPACT_CLASS == null) {
+            return CompletableFuture.completedFuture(false);
         }
-        return original.call(machineLevel, player, machinePos, roomCode);
+
+        try {
+            ResourceKey<Level> currentDimension = player.level().dimension();
+            ResourceKey<Level> compactDimension = ((ServerLevel) COMPACT_DIM.invoke(null, player.server)).dimension();
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("preventDimensionChange");
+            if (objective != null) {
+                ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(player, objective);
+                int score = scoreAccess.get();
+                if (score == 0 && (!currentDimension.equals(compactDimension)) && !(player instanceof FakePlayer)) {
+                    System.out.println("Cancelled dimension change");
+                    return CompletableFuture.completedFuture(FAILED);
+                }
+            }
+            return original.call(machineLevel, player, machinePos, roomCode);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            return original.call(machineLevel, player, machinePos, roomCode);
+        }
     }
 }

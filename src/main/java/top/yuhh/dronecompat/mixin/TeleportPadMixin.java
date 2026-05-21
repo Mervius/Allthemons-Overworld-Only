@@ -146,10 +146,9 @@ public abstract class TeleportPadMixin extends Block {
     private void droneUseWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         droneCompat$init();
 
-        if (DRONE_CLASS == null || GET_FAKE_PLAYER == null) {
+        if (DRONE_CLASS == null) {
             return;
         }
-
         if (!(player instanceof FakePlayer) || !player.isShiftKeyDown()) {
             return;
         }

@@ -59,6 +59,9 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
     }
 
     @Unique
+    private static Class<?> COMPACT_CLASS;
+
+    @Unique
     private static Class<?> COMPACT_ENTITY_CLASS;
 
     @Unique
@@ -207,6 +210,9 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand p_316595_, @NotNull BlockHitResult p_316140_) {
         droneCompat$init();
 
+        if (COMPACT_CLASS == null) {
+            return ItemInteractionResult.FAIL;
+        }
         if (stack.getItem() instanceof DyeItem dye && !level.isClientSide && level instanceof ServerLevel serverLevel) {
             return droneCompat$tryDyingMachine(serverLevel, pos, player, dye, stack);
         }
