@@ -136,6 +136,7 @@ dependencies {
 //    implementation "curse.maven:silent-lib-242998:7935618"
 //    implementation "curse.maven:compact-machines-224218:7621553"
 //    compileOnly(files("/home/Mervius/IdeaProjects/droneCompat/build/libs/dev.compactmods.compactmachines.core-api-7.0.81.jar"))
+//    implementation "curse.maven:cobblemonraiddens-1349231:8072498"
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

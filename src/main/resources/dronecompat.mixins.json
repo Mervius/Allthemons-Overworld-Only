@@ -8,6 +8,7 @@
     "CompactMachinesBoundMachineBlockMixin",
     "CompactMachinesUnboundMachineBlockMixin",
     "PersonalShrinkingDeviceMixin",
+    "RaidCrystalBlockMixin",
     "ServerLevelMixin",
     "ServerPlayerMixin",
     "SilentLibTeleportUtilsMixin",
