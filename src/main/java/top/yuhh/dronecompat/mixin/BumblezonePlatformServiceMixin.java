@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "com.telepathicgrunt.the_bumblezone.services.neoforge.NeoPlatformService")
 public class BumblezonePlatformServiceMixin {
+
     @Inject(method = "isDimensionAllowed", at = @At("HEAD"), cancellable = true)
     void preventdimensionALlowed(ServerPlayer serverPlayer, ResourceKey<net.minecraft.world.level.Level> dimension, CallbackInfoReturnable<Boolean> cir) {
         ResourceKey<Level> currentDimension = serverPlayer.level().dimension();

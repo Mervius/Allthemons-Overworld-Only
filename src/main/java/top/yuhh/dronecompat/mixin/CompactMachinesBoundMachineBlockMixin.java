@@ -38,7 +38,6 @@ public class CompactMachinesBoundMachineBlockMixin {
     @Unique
     private static Method COMPACT_DIM;
 
-
     @Unique
     private static boolean droneCompat$initialized = false;
 

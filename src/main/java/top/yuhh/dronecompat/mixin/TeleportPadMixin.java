@@ -129,7 +129,6 @@ public abstract class TeleportPadMixin extends Block {
                 EnumSet.noneOf(RelativeMovement.class), drone.getYRot(), drone.getXRot());
     }
 
-    @SuppressWarnings("all")
     @Inject(method = "teleport", at = @At("HEAD"))
     private void teleportPlayer(ServerPlayer player, ServerLevel level, BlockPos targetPos, CallbackInfo ci) {
 
@@ -143,7 +142,6 @@ public abstract class TeleportPadMixin extends Block {
         level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, true);
     }
 
-    @SuppressWarnings("all")
     @Inject(method = "useWithoutItem", at = @At("HEAD"))
     private void droneUseWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         droneCompat$init();
