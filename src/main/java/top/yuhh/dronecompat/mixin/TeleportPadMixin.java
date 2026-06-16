@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.yuhh.dronecompat.DroneCompat;
 
 import javax.annotation.Nullable;
 
@@ -111,14 +112,10 @@ public abstract class TeleportPadMixin extends Block {
 
         ChunkPos chunkPos = new ChunkPos(targetPos);
 
-        level.getChunkSource().addRegionTicket(
-                TicketType.PORTAL,
-                chunkPos,
-                1,
-                targetPos
-        );
+        DroneCompat.INSTANCE.TICKETS.forceChunk(level, targetPos, chunkPos.x, chunkPos.z,true, true);
 
-        level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, true);
+        DroneCompat.PendingUnforceData data = DroneCompat.PendingUnforceData.get(level);
+        data.add(new DroneCompat.PendingUnforce(level.dimension(), targetPos, chunkPos, level.getGameTime() + 20));
 
         level.addParticle(ParticleTypes.SOUL_FIRE_FLAME,
                 targetPos.getX(), targetPos.getY(), targetPos.getZ(),
@@ -133,12 +130,14 @@ public abstract class TeleportPadMixin extends Block {
     private void teleportPlayer(ServerPlayer player, ServerLevel level, BlockPos targetPos, CallbackInfo ci) {
 
         ChunkPos chunkPos = new ChunkPos(targetPos);
+
         level.getChunkSource().addRegionTicket(
                 TicketType.PORTAL,
                 chunkPos,
                 1,
                 targetPos
         );
+
         level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, true);
     }
 
