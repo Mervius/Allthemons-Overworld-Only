@@ -126,9 +126,9 @@ dependencies {
 //    runtimeOnly("maven.modrinth:yungs-api:1.21.1-NeoForge-5.1.6-neoforge")
 //    runtimeOnly("curse.maven:geckolib-388172:7707149")
 //    runtimeOnly("maven.modrinth:pneumaticcraft-repressurized:8.2.20-neoforge")
-//    runtimeOnly("curse.maven:rctmod-1009534:7913180")
+//    implementation "curse.maven:rctmod-1009534:7913180"
 //    runtimeOnly("curse.maven:cobblemon-687131:7553231")
-//    runtimeOnly("curse.maven:radical-cobblemon-trainers-api-1152792:7952419")
+//    implementation "curse.maven:radical-cobblemon-trainers-api-1152792:7952419"
 //    runtimeOnly("curse.maven:kotlin-for-forge-351264:7471280")
 //    runtimeOnly("curse.maven:architectury-api-419699:5786327")
 //    implementation "curse.maven:the-bumblezone-forge-362479:7953201"
@@ -137,6 +137,7 @@ dependencies {
 //    implementation "curse.maven:compact-machines-224218:7621553"
 //    compileOnly(files("/home/Mervius/IdeaProjects/droneCompat/build/libs/dev.compactmods.compactmachines.core-api-7.0.81.jar"))
 //    implementation "curse.maven:cobblemonraiddens-1349231:8072498"
+//    implementation "curse.maven:all-the-mons-coremod-1361840:8247155"
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
