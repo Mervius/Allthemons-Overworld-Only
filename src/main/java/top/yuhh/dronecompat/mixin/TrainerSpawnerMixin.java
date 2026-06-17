@@ -144,6 +144,7 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
             boolean valid = (boolean) VALID_ID.invoke(rctManager, trainerId);
             if (valid && (noOrigin || !this.isMarkedAt(level, pos)) && canSpawnAt(level, pos) && this.canSpawnFor(owner, noOrigin, globalChance, globalChanceMin)) {
                 Object tmd = GET_DATA.invoke(rctManager,trainerId);
+                // TODO: MAKE LESS UGLY
                 Method team = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData").getMethod("getTrainerTeam");
                 Method identity = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerTeam").getMethod("getIdentity");
                 Method chance = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerSpawner").getDeclaredMethod("computeChance", Player.class, String.class, Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData"));
