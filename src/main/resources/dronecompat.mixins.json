@@ -7,6 +7,7 @@
     "BumblezonePlatformServiceMixin",
     "CompactMachinesBoundMachineBlockMixin",
     "CompactMachinesUnboundMachineBlockMixin",
+    "EndDragonFightMixin",
     "PersonalShrinkingDeviceMixin",
     "RaidCrystalBlockMixin",
     "ServerLevelMixin",
