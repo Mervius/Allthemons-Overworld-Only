@@ -42,7 +42,9 @@ public abstract class ServerLevelMixin extends Level {
 
     @Shadow
     @Nullable
-    public abstract EndDragonFight getDragonFight();
+    public EndDragonFight getDragonFight() {
+        return null;
+    }
 
     @Shadow
     public Iterable<Entity> getAllEntities() {
@@ -179,11 +181,12 @@ public abstract class ServerLevelMixin extends Level {
         if (BETTER_DRAGON_FIGHT_CLASS == null) {
             return;
         }
-        if (!dimension().location().equals(BuiltinDimensionTypes.END.location()) || getDragonFight() != null) {
+
+        if (!dimension().location().equals(BuiltinDimensionTypes.END.location()) || getDragonFight() == null) {
             return;
         }
 
-        Object betterDragonFight = this.getDragonFight();
+        Object betterDragonFight = getDragonFight();
         if (!BETTER_DRAGON_FIGHT_CLASS.isInstance(betterDragonFight)) {
             return;
         }
