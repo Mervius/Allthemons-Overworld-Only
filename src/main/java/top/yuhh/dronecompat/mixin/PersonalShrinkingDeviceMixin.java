@@ -17,6 +17,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import top.yuhh.dronecompat.DroneCompat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -59,6 +60,9 @@ public class PersonalShrinkingDeviceMixin {
     private static Method HIST_METHOD;
 
     @Unique
+    private static Method TO_RESPAWN;
+
+    @Unique
     private static boolean droneCompat$initialized = false;
 
     @Unique
@@ -83,6 +87,7 @@ public class PersonalShrinkingDeviceMixin {
             API_METHOD = Class.forName("dev.compactmods.machines.api.CompactMachines").getMethod("playerHistoryApi");
             ENTRY_METHOD = API_CLASS.getMethod("entryPoints");
             HIST_METHOD = Class.forName("dev.compactmods.machines.api.room.history.IPlayerEntryPointHistoryManager").getMethod("lastHistory", Player.class);
+            TO_RESPAWN = Class.forName("dev.compactmods.machines.util.PlayerUtil").getMethod("teleportPlayerToRespawnOrOverworld", MinecraftServer.class, ServerPlayer.class);
         } catch (ReflectiveOperationException e) {
             API_CLASS = null;
             ROOM_EXIT_RESULT = null;
@@ -94,6 +99,7 @@ public class PersonalShrinkingDeviceMixin {
             API_METHOD = null;
             ENTRY_METHOD = null;
             HIST_METHOD = null;
+            TO_RESPAWN = null;
         }
     }
 
@@ -112,14 +118,14 @@ public class PersonalShrinkingDeviceMixin {
 
             Object histOptional = ((Optional<?>) hist).orElse(null);
             if (histOptional == null) {
-                Class.forName("dev.compactmods.machines.util.PlayerUtil").getMethod("teleportPlayerToRespawnOrOverworld", MinecraftServer.class, ServerPlayer.class).invoke(null, serverPlayer.server, serverPlayer);
+                TO_RESPAWN.invoke(null, serverPlayer.server, serverPlayer);
                 return CompletableFuture.completedFuture(OVERWORLD);
             }
             Object entry = ENTRY_POINT_FIELD.get(histOptional);
 
             ResourceKey<Level> newDimension = (ResourceKey<Level>) POS_FIELD.get(LOCATION_FIELD.get(entry));
             if (newDimension == null) {
-                Class.forName("dev.compactmods.machines.util.PlayerUtil").getMethod("teleportPlayerToRespawnOrOverworld", MinecraftServer.class, ServerPlayer.class).invoke(null, serverPlayer.server, serverPlayer);
+                TO_RESPAWN.invoke(null, serverPlayer.server, serverPlayer);
                 return CompletableFuture.completedFuture(OVERWORLD);
             }
 
@@ -130,13 +136,12 @@ public class PersonalShrinkingDeviceMixin {
                 ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(serverPlayer, objective);
                 int score = scoreAccess.get();
                 if (score == 0 && (!currentDimension.equals(newDimension)) && !(serverPlayer instanceof FakePlayer)) {
-                    System.out.println("Cancelled dimension change");
+                    DroneCompat.LOGGER.info("Cancelled dimension change for {}", serverPlayer.getDisplayName());
                     return CompletableFuture.completedFuture(FAILED);
                 }
             }
 
-        } catch (IllegalAccessException | InvocationTargetException | ClassNotFoundException |
-                 NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             return original.call(serverPlayer);
         }
         return original.call(serverPlayer);

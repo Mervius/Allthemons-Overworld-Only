@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import top.yuhh.dronecompat.DroneCompat;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +30,7 @@ public class SilentLibTeleportUtilsMixin {
             ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(player, objective);
             int score = scoreAccess.get();
             if (score == 0 && (!currentDimension.equals(dimension)) && !(player instanceof FakePlayer)) {
-                System.out.println("Cancelled dimension change");
+                DroneCompat.LOGGER.info("Cancelled dimension change for {}", player.getDisplayName());
                 ci.cancel();
             }
         }

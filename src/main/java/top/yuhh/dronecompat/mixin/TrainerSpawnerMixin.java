@@ -63,6 +63,15 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
     private static Method SPAWN_FOR2;
 
     @Unique
+    private static Method GET_TEAM;
+
+    @Unique
+    private static Method GET_IDENTITY;
+
+    @Unique
+    private static Method GET_CHANCE;
+
+    @Unique
     private static Method VALID_ID;
 
     @Unique
@@ -84,16 +93,24 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
             SPAWN_CHANCE = configClass.getMethod("globalSpawnChance");
             SPAWN_CHANCE_MIN = configClass.getMethod("globalSpawnChanceMinimum");
             SPAWN_FOR = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerSpawner").getDeclaredMethod("spawnFor", Player.class, String.class, BlockPos.class);
+            SPAWN_FOR.setAccessible(true);
             SPAWN_FOR2 = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerSpawner").getDeclaredMethod("spawnFor", Player.class, String.class, BlockPos.class, boolean.class, boolean.class);
+            SPAWN_FOR2.setAccessible(true);
+            GET_TEAM = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData").getMethod("getTrainerTeam");
+            GET_IDENTITY = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerTeam").getMethod("getIdentity");
+            GET_CHANCE = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerSpawner").getDeclaredMethod("computeChance", Player.class, String.class, Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData"));
+            GET_CHANCE.setAccessible(true);
             VALID_ID = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerManager").getMethod("isValidId", String.class);
         } catch (ReflectiveOperationException e) {
-            System.out.println("AAAAA " + e);
             NEXT_SPAWN_CANDIDATE = null;
             GET_DATA = null;
             SPAWN_CHANCE = null;
             SPAWN_CHANCE_MIN = null;
             SPAWN_FOR = null;
             SPAWN_FOR2 = null;
+            GET_TEAM = null;
+            GET_IDENTITY = null;
+            GET_CHANCE = null;
             VALID_ID = null;
         }
     }
@@ -143,17 +160,13 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
         try {
             boolean valid = (boolean) VALID_ID.invoke(rctManager, trainerId);
             if (valid && (noOrigin || !this.isMarkedAt(level, pos)) && canSpawnAt(level, pos) && this.canSpawnFor(owner, noOrigin, globalChance, globalChanceMin)) {
+
                 Object tmd = GET_DATA.invoke(rctManager,trainerId);
-                // TODO: MAKE LESS UGLY
-                Method team = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData").getMethod("getTrainerTeam");
-                Method identity = Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerTeam").getMethod("getIdentity");
-                Method chance = Class.forName("com.gitlab.srcmc.rctmod.api.service.TrainerSpawner").getDeclaredMethod("computeChance", Player.class, String.class, Class.forName("com.gitlab.srcmc.rctmod.api.data.pack.TrainerMobData"));
-                chance.setAccessible(true);
-                double chance2 = (double) chance.invoke(this, owner, trainerId, tmd);
+                double chance = (double) GET_CHANCE.invoke(this, owner, trainerId, tmd);
                 FakePlayer tempFake = new FakePlayer((ServerLevel) drone.level(), owner.getGameProfile());
                 tempFake.setPos(drone.position());
                 tempFake.setUUID(owner.getUUID());
-                if (tmd != null && this.isUnique((String) identity.invoke(team.invoke(tmd)), level, pos) && (guarantee || chance2 >= owner.getRandom().nextDouble())) {
+                if (tmd != null && this.isUnique((String) GET_IDENTITY.invoke(GET_TEAM.invoke(tmd)), level, pos) && (guarantee || chance >= owner.getRandom().nextDouble())) {
                     Object mob = SPAWN_FOR2.invoke(this, tempFake, trainerId, pos, setHome, noOrigin);
                     DroneCompat.LOGGER.info("Unnatural trainer spawn: {}", mob);
                     return mob;
@@ -161,7 +174,7 @@ public abstract class TrainerSpawnerMixin implements TrainerSpawnerInterface {
             }
 
             return null;
-        } catch (IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }

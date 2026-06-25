@@ -1,7 +1,5 @@
 package top.yuhh.dronecompat.mixin;
 
-import com.mojang.logging.LogUtils;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponentType;
@@ -41,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
+import top.yuhh.dronecompat.DroneCompat;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -126,12 +125,10 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
         }
         droneCompat$initialized = true;
 
-        Class<?> DATA_COMPONENTS_CLASS;
-        Class<?> COMPACT_CLASS;
         try {
             COMPACT_CLASS = Class.forName("dev.compactmods.machines.api.dimension.CompactDimension");
             COMPACT_ENTITY_CLASS = Class.forName("dev.compactmods.machines.api.machine.block.ICompactMachineBlockEntity");
-            DATA_COMPONENTS_CLASS = Class.forName("dev.compactmods.machines.shrinking.Shrinking$DataComponents");
+            Class<?> DATA_COMPONENTS_CLASS = Class.forName("dev.compactmods.machines.shrinking.Shrinking$DataComponents");
             MACHINE_BLOCK_ENTITY_CLASS = Class.forName("dev.compactmods.machines.machine.Machines$BlockEntities");
             MACHINE_COLOR_CLASS = Class.forName("dev.compactmods.machines.api.machine.MachineColor");
             MACHINE_COLOR_SYNC_PACKET = Class.forName("dev.compactmods.machines.network.machine.MachineColorSyncPacket");
@@ -154,7 +151,6 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
             TEMPLATE_ID_METHOD = Class.forName("dev.compactmods.machines.machine.block.UnboundCompactMachineEntity").getMethod("templateId");
             TEMPLATE_METHOD = Class.forName("dev.compactmods.machines.api.room.template.RoomTemplateHelper").getMethod("getTemplate", LevelReader.class, ResourceLocation.class);
         } catch (ReflectiveOperationException e) {
-            System.out.println("AAAAA" + e);
             COMPACT_ENTITY_CLASS = null;
             MACHINE_BLOCK_ENTITY_CLASS = null;
             MACHINE_COLOR_CLASS = null;
@@ -207,7 +203,7 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
      * @reason pain
      */
     @Overwrite
-    protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand p_316595_, @NotNull BlockHitResult p_316140_) {
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand p_316595_, @NotNull BlockHitResult p_316140_) {
         droneCompat$init();
 
         if (COMPACT_CLASS == null) {
@@ -262,7 +258,7 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
                                             ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(sp, objective);
                                             int score = scoreAccess.get();
                                             if (score == 0 && (!currentDimension.equals(compactDimension)) && !(sp instanceof FakePlayer)) {
-                                                System.out.println("Cancelled dimension change");
+                                                DroneCompat.LOGGER.info("Cancelled dimension change for {}", player.getDisplayName());
                                             } else {
                                                 ((CompletableFuture<?>) TELEPORT_TO_ROOM.invoke(null, server, sp, newRoom, ENTERING_ROOM.invoke(null, player))).thenAccept(res -> {
                                                     try {
@@ -279,10 +275,10 @@ public class CompactMachinesUnboundMachineBlockMixin extends Block {
                                     }
                                 });
                             } catch (Exception e) {
-                                LogUtils.getLogger().error("Error occurred while generating new room and machine info for first player entry.", e);
+                                DroneCompat.LOGGER.error("Error occurred while generating new room and machine info for first player entry.", e);
                             }
                         } else {
-                            LogUtils.getLogger().error("Tried to create and enter an invalidly-registered room. Something went very wrong!");
+                            DroneCompat.LOGGER.error("Tried to create and enter an invalidly-registered room. Something went very wrong!");
                         }
                     } catch (InvocationTargetException | IllegalAccessException e) {
                         throw new RuntimeException(e);

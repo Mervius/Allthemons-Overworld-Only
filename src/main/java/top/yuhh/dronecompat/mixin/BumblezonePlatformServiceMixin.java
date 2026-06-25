@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.yuhh.dronecompat.DroneCompat;
 
 @Mixin(targets = "com.telepathicgrunt.the_bumblezone.services.neoforge.NeoPlatformService")
 public class BumblezonePlatformServiceMixin {
@@ -26,7 +27,7 @@ public class BumblezonePlatformServiceMixin {
             ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(serverPlayer, objective);
             int score = scoreAccess.get();
             if (score == 0 && (!currentDimension.equals(dimension)) && !(serverPlayer instanceof FakePlayer)) {
-                System.out.println("Cancelled dimension change");
+                DroneCompat.LOGGER.info("Cancelled dimension change for {}", serverPlayer.getDisplayName());
                 cir.setReturnValue(false);
                 cir.cancel();
             }

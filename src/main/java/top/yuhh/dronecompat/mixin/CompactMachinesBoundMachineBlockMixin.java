@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import top.yuhh.dronecompat.DroneCompat;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -79,7 +80,7 @@ public class CompactMachinesBoundMachineBlockMixin {
                 ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(player, objective);
                 int score = scoreAccess.get();
                 if (score == 0 && (!currentDimension.equals(compactDimension)) && !(player instanceof FakePlayer)) {
-                    System.out.println("Cancelled dimension change");
+                    DroneCompat.LOGGER.info("Cancelled dimension change for {}", player.getDisplayName());
                     return CompletableFuture.completedFuture(FAILED);
                 }
             }

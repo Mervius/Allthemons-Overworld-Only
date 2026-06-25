@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.yuhh.dronecompat.DroneCompat;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends Player {
@@ -28,9 +29,6 @@ public abstract class ServerPlayerMixin extends Player {
     public ServerPlayerMixin(Level level, BlockPos blockPos, float yRot, GameProfile profile) {
         super(level, blockPos, yRot, profile);
     }
-
-    @Shadow
-    public ServerGamePacketListenerImpl connection;
 
     @Inject(method = "changeDimension", at = @At("HEAD"), cancellable = true)
     public void changeDimensionA(DimensionTransition dimensionTransition, CallbackInfoReturnable<Entity> cir) {
@@ -42,7 +40,7 @@ public abstract class ServerPlayerMixin extends Player {
             ScoreAccess scoreAccess = scoreboard.getOrCreatePlayerScore(this, objective);
             int score = scoreAccess.get();
             if (score == 0 && (!currentDimension.equals(dimension)) && !((Player) this instanceof FakePlayer)) {
-                System.out.println("Cancelled dimension change");
+                DroneCompat.LOGGER.info("Cancelled dimension change for {}", this.getDisplayName());
                 cir.cancel();
             }
         }

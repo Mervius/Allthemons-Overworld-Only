@@ -108,15 +108,16 @@ public class EndDragonFightMixin {
             DRONE_CLASS = Class.forName("me.desht.pneumaticcraft.api.drone.IDrone");
             STATE = ((Object) this).getClass().getDeclaredMethod("scanForInitialState");
             STATE.setAccessible(true);
+            TICK = Class.forName("com.yungnickyoung.minecraft.betterendisland.world.DragonRespawnStage").getMethod("tick", ServerLevel.class, EndDragonFight.class, List.class, int.class);
             STAGE = ((Object) this).getClass().getDeclaredField("bei$dragonRespawnStage");
             STAGE.setAccessible(true);
-            TICK = Class.forName("com.yungnickyoung.minecraft.betterendisland.world.DragonRespawnStage").getMethod("tick", ServerLevel.class, EndDragonFight.class, List.class, int.class);
             SPAWN = ((Object) this).getClass().getDeclaredField("bei$hasDragonEverSpawned");
             SPAWN.setAccessible(true);
         } catch (ReflectiveOperationException e) {
             DRONE_CLASS = null;
-            STAGE = null;
+            STATE = null;
             TICK = null;
+            STAGE = null;
             SPAWN = null;
         }
     }

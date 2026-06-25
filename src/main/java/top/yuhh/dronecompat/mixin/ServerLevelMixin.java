@@ -233,6 +233,7 @@ public abstract class ServerLevelMixin extends Level {
                 int tickRange = Math.max(0, (int) TICKS_MAX.invoke(rctConfig) - (int) TICKS_CONFIG.invoke(rctConfig));
 
                 if (maxSpawns > 0) {
+
                     ArrayList<Player> owners = new ArrayList<>();
                     for (Entity e : getAllEntities()) {
 
@@ -245,6 +246,7 @@ public abstract class ServerLevelMixin extends Level {
                                     continue;
                                 }
                                 owners.add(owner);
+
                                 int ownerSpawnCount = (int) GET_SPAWN_COUNT.invoke(trainers, owner.getUUID());
                                 int ticks = (int) TICKS_CONFIG.invoke(rctConfig) + (tickRange * maxSpawns > 1 ? Math.min(1, ownerSpawnCount / Math.clamp(maxSpawns - 1, 1, Integer.MAX_VALUE)) : 1);
                                 if (ticks == 0 || (owner.tickCount % ticks == 0)) {
