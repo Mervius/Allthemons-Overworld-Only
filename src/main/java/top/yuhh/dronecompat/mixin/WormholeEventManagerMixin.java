@@ -7,7 +7,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,13 +17,15 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.yuhh.dronecompat.DroneCompat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.Random;
+
+import top.yuhh.dronecompat.DroneCompat;
 
 @Mixin(targets = "ultra.wormholes.event.WormholeEventManager")
 public class WormholeEventManagerMixin {
@@ -109,22 +113,24 @@ public class WormholeEventManagerMixin {
                             }
                         }
                     }
-                    Entity target = Drones.get(RANDOM.nextInt(Drones.size()));
-                    if (target != null) {
+                    if (!Drones.isEmpty()) {
+                        Entity target = Drones.get(RANDOM.nextInt(Drones.size()));
+                        if (target != null) {
 
-                        BlockPos spawnPos = findSpawnPos(level, target.blockPosition());
-                        if (spawnPos == null) {
-                            DroneCompat.LOGGER.warn("Could not find valid spawn position near {} — skipping event.", target.getName().getString());
-                            scheduleNextIfEnabled("auto-spawn skipped due to invalid position");
-                            cir.cancel();
-                            cir.setReturnValue(false);
-                        } else if (!openEvent(level, spawnPos, forcedUltraBeastId)) {
-                            scheduleNextIfEnabled("auto-spawn failed during event open");
-                            cir.cancel();
-                            cir.setReturnValue(false);
-                        } else {
-                            cir.cancel();
-                            cir.setReturnValue(true);
+                            BlockPos spawnPos = findSpawnPos(level, target.blockPosition());
+                            if (spawnPos == null) {
+                                DroneCompat.LOGGER.warn("Could not find valid spawn position near {} — skipping event.", target.getName().getString());
+                                scheduleNextIfEnabled("auto-spawn skipped due to invalid position");
+                                cir.cancel();
+                                cir.setReturnValue(false);
+                            } else if (!openEvent(level, spawnPos, forcedUltraBeastId)) {
+                                scheduleNextIfEnabled("auto-spawn failed during event open");
+                                cir.cancel();
+                                cir.setReturnValue(false);
+                            } else {
+                                cir.cancel();
+                                cir.setReturnValue(true);
+                            }
                         }
                     }
                 }
