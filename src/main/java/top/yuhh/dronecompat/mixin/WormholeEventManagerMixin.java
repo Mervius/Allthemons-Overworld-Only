@@ -56,9 +56,6 @@ public class WormholeEventManagerMixin {
     private static Class<?> DRONE_CLASS;
 
     @Unique
-    private static Class<?> UltraWormholeModReference;
-
-    @Unique
     private static Method GET_OWNER;
 
     @Unique
@@ -75,15 +72,16 @@ public class WormholeEventManagerMixin {
         }
         droneCompat$initialized = true;
 
+        Class<?> ultraWormholeModReference;
+
         try {
             DRONE_CLASS = Class.forName("me.desht.pneumaticcraft.api.drone.IDrone");
             GET_OWNER = DRONE_CLASS.getMethod("getOwner");
-            UltraWormholeModReference = Class.forName("com.thevortex.allthemodium.reference.Reference");
-            THE_OTHER = UltraWormholeModReference.getField("THE_OTHER");
+            ultraWormholeModReference = Class.forName("com.thevortex.allthemodium.reference.Reference");
+            THE_OTHER = ultraWormholeModReference.getField("THE_OTHER");
         } catch (ReflectiveOperationException e) {
             DRONE_CLASS = null;
             GET_OWNER = null;
-            UltraWormholeModReference = null;
             THE_OTHER = null;
         }
     }
@@ -100,36 +98,38 @@ public class WormholeEventManagerMixin {
             if (server != null) {
                 ServerLevel level = server.getLevel((ResourceKey<Level>) THE_OTHER.get(null));
                 if (level != null) {
-                    ArrayList<Entity> Drones = new ArrayList<>();
-                    for (Entity entity : level.getEntities().getAll()) {
-                        if (DRONE_CLASS.isInstance(entity)) {
-                            Player owner = (Player) GET_OWNER.invoke(entity);
+                    if (!level.players().isEmpty()) {
+                        ArrayList<Entity> Drones = new ArrayList<>();
+                        for (Entity entity : level.getEntities().getAll()) {
+                            if (DRONE_CLASS.isInstance(entity)) {
+                                Player owner = (Player) GET_OWNER.invoke(entity);
 
-                            if (owner != null) {
-                                if (owner.level() == entity.level() || Drones.contains(entity)) {
-                                    continue;
+                                if (owner != null) {
+                                    if (owner.level() == entity.level() || Drones.contains(entity)) {
+                                        continue;
+                                    }
+                                    Drones.add(entity);
                                 }
-                                Drones.add(entity);
                             }
                         }
-                    }
-                    if (!Drones.isEmpty()) {
-                        Entity target = Drones.get(RANDOM.nextInt(Drones.size()));
-                        if (target != null) {
+                        if (!Drones.isEmpty()) {
+                            Entity target = Drones.get(RANDOM.nextInt(Drones.size()));
+                            if (target != null) {
 
-                            BlockPos spawnPos = findSpawnPos(level, target.blockPosition());
-                            if (spawnPos == null) {
-                                DroneCompat.LOGGER.warn("Could not find valid spawn position near {} — skipping event.", target.getName().getString());
-                                scheduleNextIfEnabled("auto-spawn skipped due to invalid position");
-                                cir.cancel();
-                                cir.setReturnValue(false);
-                            } else if (!openEvent(level, spawnPos, forcedUltraBeastId)) {
-                                scheduleNextIfEnabled("auto-spawn failed during event open");
-                                cir.cancel();
-                                cir.setReturnValue(false);
-                            } else {
-                                cir.cancel();
-                                cir.setReturnValue(true);
+                                BlockPos spawnPos = findSpawnPos(level, target.blockPosition());
+                                if (spawnPos == null) {
+                                    DroneCompat.LOGGER.warn("Could not find valid spawn position near {} — skipping event.", target.getName().getString());
+                                    scheduleNextIfEnabled("auto-spawn skipped due to invalid position");
+                                    cir.cancel();
+                                    cir.setReturnValue(false);
+                                } else if (!openEvent(level, spawnPos, forcedUltraBeastId)) {
+                                    scheduleNextIfEnabled("auto-spawn failed during event open");
+                                    cir.cancel();
+                                    cir.setReturnValue(false);
+                                } else {
+                                    cir.cancel();
+                                    cir.setReturnValue(true);
+                                }
                             }
                         }
                     }
