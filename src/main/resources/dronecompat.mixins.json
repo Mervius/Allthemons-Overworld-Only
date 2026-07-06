@@ -17,7 +17,8 @@
     "TeleportPadMixin",
     "TrainerMobMixin",
     "TrainerSpawnerBlockEntityMixin",
-    "TrainerSpawnerMixin"
+    "TrainerSpawnerMixin",
+    "WormholeEventManagerMixin"
   ],
   "client": [
     "PlayerTabOverlayMixin",

@@ -176,7 +176,7 @@ public abstract class ServerLevelMixin extends Level {
     }
 
     @Unique
-    void draoneCompat$dragonFight() {
+    private void draoneCompat$dragonFight() {
 
         if (BETTER_DRAGON_FIGHT_CLASS == null) {
             return;
@@ -215,7 +215,7 @@ public abstract class ServerLevelMixin extends Level {
     }
 
     @Unique
-    void droneCompat$spawnTrainers() {
+    private void droneCompat$spawnTrainers() {
 
         if (RCT_CLASS == null) {
             return;

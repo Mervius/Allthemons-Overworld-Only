@@ -137,8 +137,29 @@ dependencies {
 //    implementation "curse.maven:compact-machines-224218:7621553"
 //    compileOnly(files("/home/Mervius/IdeaProjects/droneCompat/build/libs/dev.compactmods.compactmachines.core-api-7.0.81.jar"))
 //    implementation "curse.maven:cobblemonraiddens-1349231:8072498"
-//    implementation "curse.maven:all-the-mons-coremod-1361840:8247155"
 
+//    implementation "curse.maven:all-the-mons-coremod-1361840:8374939"
+//    implementation "curse.maven:cobblemon-ultra-wormholes-1487245:7882625"
+//    implementation "curse.maven:create-328085:7963363"
+//    implementation "curse.maven:crafting-on-a-stick-577850:7394335"
+//    implementation "curse.maven:pkgbadges-889895:6255319"
+//    implementation "curse.maven:wild-battle-api-1478863:7765020"
+//    implementation "curse.maven:industrial-foregoing-souls-904394:7441306"
+//    implementation "curse.maven:industrial-foregoing-266515:7600395"
+//    implementation "curse.maven:titanium-287342:7951516"
+//    implementation "curse.maven:mekanism-268560:7904058"
+//    implementation "curse.maven:cobblefurnies-1188698:8340192"
+//    implementation (files("/home/Mervius/Downloads/SimpleTMs-neoforge-2.3.3.jar"))
+//    implementation "curse.maven:lithostitched-936015:8321754"
+//    implementation "curse.maven:eternal-starlight-1080592:8109479"
+//    implementation "curse.maven:cobblemon-mega-showdown-1189523:8102863"
+//    implementation "curse.maven:accessories-938917:7583320"
+//    implementation "curse.maven:owo-lib-532610:6785734"
+//    implementation "curse.maven:oritech-1030830:8295566"
+//    implementation "curse.maven:athena-841890:8061947"
+//    implementation "curse.maven:create-cobblemon-balls-overhaul-1255522:7324591"
+//    implementation "curse.maven:ender-io-64578:8192838"
+//    implementation "curse.maven:productivetrees-867074:8190022"
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
